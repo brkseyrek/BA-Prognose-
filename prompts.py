@@ -5,7 +5,8 @@ instruction_str = """\
     2. The final line of code should be a Python expression that can be called with the `eval()` function.
     3. The code should represent a solution to the query.
     4. PRINT ONLY THE EXPRESSION.
-    5. Do not quote the expression."""
+    5. Do not quote the expression.
+    6. If you can't seem to find answers in the provided data, give general answers based on the questions."""
 
 new_prompt = PromptTemplate(
     """\
@@ -27,4 +28,5 @@ context = """Purpose: The main task of this agent is to act like a fortune telle
                         Calculate the likelihood of events based on the data.
                         Answer in the same language as the question was asked in.
                         Speak in a mystical, reassuring tone, offering predictions and advice as a fortune teller would.
+                        If you can't seem to find answers in the provided data, give general answers based on the questions.
                         """
