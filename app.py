@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, session
 import os
 from main import (
     agent,
@@ -15,8 +15,7 @@ from main import (
 )
 
 app = Flask(__name__)
-user_description = ""  
-
+app.secret_key = os.urandom(24)  # Setzt einen geheimen Schlüssel für die Sitzungen
 
 @app.route("/")
 def home():
@@ -25,24 +24,20 @@ def home():
 
 @app.route("/profile.html")
 def profile():
-    return render_template("profile.html", description=user_description)
-
-
-@app.route("/ba.html")
-def ba():
-    return render_template("ba.html")
+    description = session.get("user_description", "")  # Holt die Beschreibung aus der Sitzung
+    return render_template("profile.html", description=description)
 
 
 @app.route("/save_description", methods=["POST"])
 def save_description():
-    global user_description
-    user_description = request.form["description"]
+    session["user_description"] = request.form["description"]  # Speichert die Beschreibung in der Sitzung
     return jsonify(result="Beschreibung gespeichert")
 
 
 @app.route("/query", methods=["POST"])
 def query():
     prompt = request.form["prompt"]
+    user_description = session.get("user_description", "")
     full_prompt = format_prompt(prompt, user_description)
     result = agent.query(full_prompt)
     formatted_result = f"{result}"
