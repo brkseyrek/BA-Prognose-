@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+
+    <link rel="icon" href="/static/glaskugel.png" />
+    <link rel="apple-touch-icon" href="/static/logo192.png" />
+    <link rel="manifest" href="/static/manifest.json" />
+    <link rel="stylesheet" href="/static/topnav.css" />
+    <link rel="stylesheet" href="/static/profile.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chewy&family=Golos+Text:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/b30115917b.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>Prognose Anwendung</title>
+  </head>
+  <body>
+    <div class="topnav">
+      <div class="topnav-left">
+        <h1>Prognosen-Anwendung</h1>
+      </div>
+      <div class="topnav-right">
+        <div class="topnav-right-home">
+          <a href="/"><i class="fa-solid fa-house fa-2x"></i></a>
+        </div>
+        <div class="topnav-right-profile">
+          <a href="/profile.html"><i class="fa-solid fa-user fa-2x"></i></a>
+        </div>
+        <div class="topnav-right-ba">
+          <a href="/ba.html"><i class="fa-solid fa-book fa-2x"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="main-title">
+        <h1>Profil</h1>
+      </div>
+      <div class="main-top">
+        <form id="query-form">
+          <input
+            type="text"
+            placeholder="Beschreibe dich hier"
+            id="description"
+            name="description"
+            required
+            value="{{ description }}"
+          />
+        </form>
+      </div>
+      <div class="main-mid">
+        <button type="button" id="submit-button" class="submit-button">
+          Speichern
+        </button>
+      </div>
+      <div class="main-bottom">
+        <div class="current-description">
+          <h3>Aktuelle Beschreibung</h3>
+          <div id="description-display">{{ description }}</div>
+          <div id="result" style="display: none">Beschreibung gespeichert</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var queryForm = document.getElementById("query-form");
+        var resultElement = document.getElementById("description-display");
+        var submitButton = document.querySelector(".submit-button");
+        var descriptionInput = document.getElementById("description");
+        var resultMessage = document.getElementById("result");
+
+        function submitForm() {
+          if (!queryForm.checkValidity()) {
+            queryForm.reportValidity();
+            return;
+          }
+
+          var description = descriptionInput.value.trim();
+          fetch("/save_description", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: "description=" + encodeURIComponent(description),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              resultMessage.style.display = "block";
+              resultElement.innerText = description;
+
+              // Nach 2 Sekunden die Nachricht ausblenden und das Feld aktualisieren
+              setTimeout(function () {
+                resultMessage.style.display = "none";
+                descriptionInput.value = description;
+              }, 2000);
+            });
+        }
+
+        submitButton.addEventListener("click", function () {
+          submitForm();
+        });
+      });
+    </script>
+  </body>
+</html>
