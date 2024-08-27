@@ -6,8 +6,7 @@ instruction_str = """\
     3. The code should represent a solution to the query.
     4. PRINT ONLY THE EXPRESSION.
     5. Do not quote the expression.
-    6. If you can't seem to find answers in the provided data, give general answers based on the questions.
-    7. Always add a couple of fitting emojis at the end of the anwsers"""
+    6. If you can't seem to find answers in the provided data, give general answers based on the questions."""
 
 new_prompt = PromptTemplate(
     """\
