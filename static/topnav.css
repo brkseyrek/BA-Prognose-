@@ -13,6 +13,52 @@
   height: 11%;
 }
 
+/* Mobile Styles */
+@media only screen and (max-width: 768px) {
+  .topnav {
+    top: 0%;
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 102%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .topnav-left {
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
+    margin-bottom: 10px;
+    align-items: center;
+  }
+
+  .topnav-left h1 {
+    font-size: 25px;
+    text-align: center;
+  }
+
+  .topnav-right {
+    width: 100%;
+    justify-content: space-around;
+    margin-right: 0;
+  }
+
+  .topnav-right-home,
+  .topnav-right-profile,
+  .topnav-right-ba {
+    width: auto;
+    height: auto;
+  }
+
+  .topnav-right-home i,
+  .topnav-right-profile i,
+  .topnav-right-ba i {
+    font-size: 1.5rem;
+  }
+}
+
 .topnav-left {
   display: flex;
   flex-direction: row;
