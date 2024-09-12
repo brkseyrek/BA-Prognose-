@@ -135,6 +135,13 @@
             submitForm();
           });
 
+          promptInput.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+              e.preventDefault(); // Verhindere das Standardverhalten der Enter-Taste
+              submitForm(); // Formular absenden
+            }
+          });
+
           closeButton.addEventListener("click", function () {
             modal.style.display = "none";
           });
